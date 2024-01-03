@@ -1,0 +1,101 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.contenedor{
+    max-width: 800px;
+    height: auto;
+    background-color: brown;
+    margin: 100px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+}
+
+.contenedorInput{
+    width: 80%;
+    height: 80%;
+    background-color: blue;
+}
+
+.contenedorInput .input{
+    width: 80%;
+    height: 50px;
+    padding: 20px 20px;
+    margin: 50px;
+    border-radius: 20px;
+}
+
+.input::placeholder{
+    color: black;
+    font-size: 18px;
+    border: none;
+}
+
+.botonCont{
+    text-align: center;
+    padding: 20px;
+}
+
+.botonCont .presionarPreguntas{
+    width: 100px;
+    height: 40px;
+    background-color: aquamarine;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+
+/* contenedor de preguntas a realizar*/
+
+.containerQuestions{
+    max-width: 800px;
+    height: auto;
+    background-color: brown;
+    margin: 100px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+}
+
+.contenedorPREGUNTAS{
+    width: 80%;
+    height: 80%;
+    background-color: blue;
+}
+
+
+.inputcaca{
+    width: 80%;
+    height: 50px;
+    padding: 20px 20px;
+    margin: 50px;
+    border-radius: 20px;
+}
+
+.inputcaca::placeholder{
+    color: black;
+    font-size: 18px;
+    border: none;
+}
+
+
+.botonContPREGUNTAS{
+    text-align: center;
+    padding: 20px;
+}
+
+.botonContPREGUNTAS .PREGUNTASBOTON{
+    width: 100px;
+    height: 40px;
+    background-color: aquamarine;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+

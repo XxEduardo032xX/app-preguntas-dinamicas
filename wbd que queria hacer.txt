@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+
+    <!-- primero has la prueba de absolute osea del contenedor luego del hijo y dentro
+    del hijo, ya me entiendes-->
+
+
+    <div class="contenedor">
+        <div class="contenedorHijo">
+            <div class="contenedorHIJO">
+                <div class="contenedor_Hijo2"></div>
+                <div class="contenedor_Hijo2"></div>
+                <div class="contenedor_Hijo2"></div>
+                <div class="contenedor_Hijo2"></div>
+                <div class="contenedor_Hijo2"></div>
+                <div class="contenedor_Hijo2"></div>
+            </div>
+        </div>
+    </div>
+
+    
+    <script src="main.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+.contenedor{
+    width: 600px;
+    height: 600px;
+    background: brown;
+    margin: 100px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contenedorHijo{
+    width: 400px;
+    height: 400px;
+    background-color: blue;
+    position: relative;
+}
+
+.contenedorHIJO{
+    width: 200px;
+    height: 200px;
+    background-color: red;
+    position: absolute;
+    top: 100px;
+    left: 100px;
+}
+
+
+.contenedor_Hijo2{
+    background-color: pink;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    border-radius: 50%;
+}
+
+.contenedor_Hijo2:first-child{
+    background: gray;
+    top: 0;
+    left: 0;
+}
+
+.contenedor_Hijo2:nth-child(2){
+    background: yellow;
+    top: 0;
+    right: 0;
+}
+
+
+.contenedor_Hijo2:nth-child(3){
+    bottom: 0;
+    left: 0;
+    background-color: blueviolet;
+}
+
+.contenedor_Hijo2:nth-child(4){
+    bottom: 0;
+    right: 0;
+    background-color: peru;
+}
+
+
+
+
+
+
+
+---------------------------
+
+
+
+
+
+const titulo = document.querySelector(".titulo");
+const inputText = document.getElementById("inputText");
+const pasandoSiguiente = document.querySelector(".pasandoSiguiente");
+const contenedorBotones = document.querySelector(".contenedorBotones");
+let fragmento = document.createDocumentFragment();
+
+let contador = 0, limite = 5;
+let alternativasTotales = [3, 4, 5, 6];
+
+function principal() {
+    funcionTitulo();
+    alternativasDinamicas(alternativasTotales[contador])
+}
+
+function funcionTitulo() {
+    titulo.textContent = `Ingrese la pregunta ${contador + 1}`;
+}
+
+function alternativasDinamicas(cantidad) {
+    fragmento.innerHTML = ""; // Limpiar fragmento
+
+    for (let x = 0; x < cantidad; x++) {
+        const elementoInput = document.createElement("input");
+        elementoInput.setAttribute("type", "text");
+        elementoInput.setAttribute("class", "input");
+        elementoInput.setAttribute("placeholder", `Ingrese la alternativa ${x + 1}`);
+        fragmento.append(elementoInput);
+    }
+
+    // Mover la línea aquí para agregar el fragmento al contenedor después de generar los elementos input
+    contenedorBotones.innerHTML = "";
+    contenedorBotones.append(fragmento);
+}
+
+pasandoSiguiente.addEventListener("click", () => {
+    if (contador < limite - 1 && contador < alternativasTotales.length - 1) {
+        // Verificar límite antes de incrementar contador
+        contador++;
+        alternativasDinamicas(alternativasTotales[contador]);
+        funcionTitulo();
+        console.log(contador);
+    } else {
+        console.log("Llego al límite");
+    }
+});
+
+
+principal();

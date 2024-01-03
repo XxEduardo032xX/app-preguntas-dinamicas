@@ -1,0 +1,246 @@
+Con dos formas me refiero a que habian dos formas de poder hacer la app de preguntas
+
+La primera era que podias colocar una cantidad de preguntas y alternativas FIJAS osea 4, 4
+
+La segunda era que podias colocar una cantidad de preguntas y alternativas DE MANERA MAS DINAMICA
+como por ejemplo quieres 4 preguntas, en la 1 pregunta colocas 3 alternativas, en la 2 pregunta colocas
+5 alternativas y en la 3 pregunta colocas 2 alternativas y asi sucesivamente
+
+
+
+
+
+El codigo para la PRIMERA FORMA ES LA SIGUIENTE:
+
+
+const inputPregunta = document.querySelector("#inputPregunta");
+const titulo = document.querySelector(".titulo");
+const pasandoSiguiente = document.querySelector(".pasandoSiguiente");
+const fragmento = document.createDocumentFragment();
+const contenedorBotones = document.querySelector(".contenedorBotones");
+const contenedor = document.querySelector(".contenedor");
+
+let consumiendoDatStorage = localStorage.getItem("cantPreguntAlternati");
+let pasandoloJsonStorage = JSON.parse(consumiendoDatStorage);
+console.log(pasandoloJsonStorage);
+
+let contador = 0;
+let limiteContador = parseInt(pasandoloJsonStorage.pregunta);
+let cantidadAlternativasStorage = parseInt(pasandoloJsonStorage.alternativas);
+console.log("limite: ", limiteContador);
+
+let almacenandoPreguntas_Alternativas = [];
+
+function principal() {
+    tituloPregunta();
+    cambiandoAlternativas();
+}
+
+const tituloPregunta = () =>
+    (titulo.textContent = `Ingrese la primera ${contador + 1}`);
+
+function cambiandoAlternativas() {
+    contenedorBotones.innerHTML = "";
+
+    //aqui le pones "cantidadAlternativasStorage" para representar cuantos
+    //inputs quieres que halla en cada pregunta del arreglo
+    for (let x = 0; x < cantidadAlternativasStorage; x++) {
+        const div = document.createElement("div");
+
+        const input = document.createElement("input");
+        input.setAttribute("type", "text");
+        input.classList.add("inputText");
+        input.setAttribute("placeholder", "Ingrese la alternativa");
+
+        const checkbox = document.createElement("input");
+        checkbox.setAttribute("type", "checkbox");
+        checkbox.classList.add("checkbox");
+        checkbox.setAttribute("id", `checkbox-${x}`);
+        div.appendChild(input);
+        div.appendChild(checkbox);
+
+        fragmento.appendChild(div);
+    }
+    contenedorBotones.appendChild(fragmento);
+}
+
+pasandoSiguiente.addEventListener("click", () => {
+    const preguntaLlena = inputPregunta.value.trim() !== "";
+    const alternativasLlenas = Array.from(document.querySelectorAll(".inputText"))
+        .every((input) => input.value.trim() !== "");
+
+    if (preguntaLlena && alternativasLlenas) {
+        const alMenosUnCheckboxMarcado = Array.from(document.querySelectorAll(".checkbox"))
+            .some((checkbox) => checkbox.checked);
+
+        if (alMenosUnCheckboxMarcado) {
+            guardandoPreguntasYAlternativas();
+            contador++;
+            //debes de colocar esto para verificar que estas trabajando con los datos actuales
+            //antes de pasar a la siguiente pregunta
+            if (contador < limiteContador) {
+                cambiandoAlternativas();
+                tituloPregunta();
+            } else {
+                alert("llego al limite");
+                contenedor.style.display = "none";
+            }
+        } else {
+            alert("Por favor, marque al menos un checkbox antes de pasar a la siguiente pregunta.");
+        }
+    } else {
+        alert("Por favor, complete la pregunta y todas las alternativas antes de pasar a la siguiente pregunta.");
+    }
+});
+
+function guardandoPreguntasYAlternativas() {
+    const inputText = document.querySelectorAll(".inputText");
+    const checkboxes = document.querySelectorAll(".checkbox");
+
+    const alternativasArray = [];
+
+    inputText.forEach((input, index) => {
+        const esCorrecta = checkboxes[index].checked;
+        alternativasArray.push({ texto: input.value, esCorrecta });
+        input.value = "";
+    });
+
+    const pasandoloJson = {
+        pregunta: inputPregunta.value,
+        alternativas: alternativasArray,
+    };
+
+    inputPregunta.value = "";
+    almacenandoPreguntas_Alternativas.push(pasandoloJson);
+
+    let contenedorPreguntasAlternativas = almacenandoPreguntas_Alternativas;
+    localStorage.setItem("contenedorPreguntasAlternativas", JSON.stringify(contenedorPreguntasAlternativas));
+
+    console.log(almacenandoPreguntas_Alternativas);
+}
+
+principal();
+
+
+
+
+
+
+
+
+
+codigo para la SEGUNDA FORMA:
+Hago recordar que el codigo de la segunda forma esta correcto pero a la vez no 
+ya que quizas halla algunos errores en el codigo, por eso verifica si esta correcto o no xd
+
+
+
+
+
+
+
+const inputPregunta = document.querySelector("#inputPregunta");
+const titulo = document.querySelector(".titulo");
+const pasandoSiguiente = document.querySelector(".pasandoSiguiente");
+const fragmento = document.createDocumentFragment();
+const contenedorBotones = document.querySelector(".contenedorBotones");
+
+
+let consumiendoDatStorage = localStorage.getItem("cantPreguntAlternati");
+let pasandoloJsonStorage = JSON.parse(consumiendoDatStorage)
+console.log(pasandoloJsonStorage);
+
+
+let contador = 0;
+let limiteContador = parseInt(pasandoloJsonStorage.pregunta);
+console.log("limite: ", limiteContador);
+let alternativasInputs = [2, 3, 4, 3, 5];
+let almacenandoPreguntas_Alternativas = [];
+
+function principal() {
+    tituloPregunta();
+    cambiandoAlternativas(alternativasInputs[contador]);
+}
+
+const tituloPregunta = () =>
+    (titulo.textContent = `Ingrese la primera ${contador + 1}`);
+
+function cambiandoAlternativas(cantidad) {
+    contenedorBotones.innerHTML = "";
+
+    for (let x = 0; x < cantidad; x++) {
+        const div = document.createElement("div");
+
+        const input = document.createElement("input");
+        input.setAttribute("type", "text");
+        input.classList.add("inputText");
+        input.setAttribute("placeholder", "Ingrese la alternativa");
+
+        const checkbox = document.createElement("input");
+        checkbox.setAttribute("type", "checkbox");
+        checkbox.classList.add("checkbox");
+        checkbox.setAttribute("id", `checkbox-${x}`);
+        div.appendChild(input);
+        div.appendChild(checkbox);
+
+        fragmento.appendChild(div);
+    }
+    contenedorBotones.appendChild(fragmento);
+}
+
+pasandoSiguiente.addEventListener("click", () => {
+    const preguntaLlena = inputPregunta.value.trim() !== "";
+    const alternativasLlenas = Array.from(document.querySelectorAll(".inputText"))
+        .every((input) => input.value.trim() !== "");
+
+    if (preguntaLlena && alternativasLlenas) {
+        const alMenosUnCheckboxMarcado = Array.from(document.querySelectorAll(".checkbox"))
+            .some((checkbox) => checkbox.checked);
+
+        if (alMenosUnCheckboxMarcado) {
+            guardandoPreguntasYAlternativas();
+            contador++;
+            if (contador < limiteContador) {
+                cambiandoAlternativas(alternativasInputs[contador]);
+                tituloPregunta();
+            } else {
+                console.log("llego al limite");
+                alert("Ya completó todas las preguntas y alternativas. Pasemos a lo siguiente");
+            }
+        } else {
+            alert("Por favor, marque al menos un checkbox antes de pasar a la siguiente pregunta.");
+        }
+    } else {
+        alert("Por favor, complete la pregunta y todas las alternativas antes de pasar a la siguiente pregunta.");
+    }
+});
+
+function guardandoPreguntasYAlternativas() {
+    const inputText = document.querySelectorAll(".inputText");
+    const checkboxes = document.querySelectorAll(".checkbox");
+
+    const alternativasArray = [];
+
+    inputText.forEach((input, index) => {
+        const esCorrecta = checkboxes[index].checked;
+        alternativasArray.push({ texto: input.value, esCorrecta });
+        input.value = "";
+    });
+
+    const pasandoloJson = {
+        pregunta: inputPregunta.value,
+        alternativas: alternativasArray,
+    };
+
+    inputPregunta.value = "";
+    almacenandoPreguntas_Alternativas.push(pasandoloJson);
+
+    let contenedorPreguntasAlternativas = almacenandoPreguntas_Alternativas;
+    localStorage.setItem("contenedorPreguntasAlternativas", JSON.stringify(contenedorPreguntasAlternativas));
+
+    console.log(almacenandoPreguntas_Alternativas);
+}
+
+principal();
+
+
